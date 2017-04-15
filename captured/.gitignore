@@ -1,0 +1,4 @@
+# ignore pictures
+*.jpg
+*.png
+*.tiff
