@@ -108,7 +108,7 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
         duration_loop = 1.0
 
         target_path = self.path_script
-        image_directory = "../captured/"
+        image_directory = "./captured/"
         # image_directory = "./"
 
         # https://man.finalrewind.org/1/feh/
