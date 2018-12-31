@@ -84,10 +84,6 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
 
     def stop_slideshow(self):
         """Stop Slideshow."""
-        pass
-
-    def _stop_slideshow(self):
-        """Stop Slideshow."""
         print("stop slideshow:")
         command = [
             "killall",
@@ -95,8 +91,9 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
         ]
         result_string = ""
         try:
-            # print("command:{}".format(" ".join(command)))
-            result_string += subprocess.check_output(command).decode()
+            print("command:{}".format(" ".join(command)))
+            # result_string += subprocess.check_output(command).decode()
+            pass
         except subprocess.CalledProcessError as e:
             error_message = "failed: {}".format(e)
             print(error_message)
@@ -107,17 +104,13 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
 
     def start_slideshow(self, startfile=None):
         """Restart Slideshow."""
-        pass
-
-    def _start_slideshow(self, startfile=None):
-        """Restart Slideshow."""
         print("start slideshow:")
         duration_new_picture = 5.0
         duration_loop = 1.0
 
         target_path = self.path_script
         image_directory = "./captured/"
-        image_directory = target_path + "/captured/"
+        # image_directory = target_path + "/captured/"
         # image_directory = "./"
 
         # https://man.finalrewind.org/1/feh/
@@ -158,7 +151,7 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
                 # subprocess.run(command)
                 pass
             # subprocess.run(command, shell=True)
-            subprocess.run(command)
+            # subprocess.run(command)
             # result_string += subprocess.check_output(command).decode()
         except subprocess.CalledProcessError as e:
             error_message = "failed: {}".format(e)
