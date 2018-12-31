@@ -1,21 +1,15 @@
 #!/usr/bin/env python3
 
 """
-Handles watermarking of gphoto2 loaded image.
+Slideshow test.
 
-needs
-    Gphoto2HookScriptHandler
-    SimpleWatermark
+just tests..
 """
 
-# import sys
+import sys
 import os
 import subprocess
 from contextlib import contextmanager
-
-from gphoto2_script_hook_handler import Gphoto2HookScriptHandler
-from watermark import SimpleWatermark
-
 
 ##########################################
 # functions
@@ -39,7 +33,7 @@ def cd(newdir):
 ##########################################
 # classes
 
-class PhotoBoothHandler(Gphoto2HookScriptHandler):
+class PhotoBoothHandler():
     """docstring for PhotoBoothHandler."""
 
     def __init__(self):
@@ -54,26 +48,6 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
         """Clean up."""
         pass
 
-    def download(self, argument):
-        """Photo downloaded and ready to work on."""
-        print("gphoto2 donwload")
-        if argument:
-            # print("ARGUMENT:", os.environ['ARGUMENT'])
-            input_filename = os.environ['ARGUMENT']
-            output_filename = input_filename
-            watermark_filename = "./mark2.png"
-
-            myMarker = SimpleWatermark(
-                input_filename=input_filename,
-                output_filename=output_filename,
-                watermark_filename=watermark_filename
-            )
-            myMarker.load()
-            myMarker.process()
-            myMarker.save()
-            self.stop_slideshow()
-            self.start_slideshow(output_filename)
-
     def start(self, argument):
         """gPhoto2 started."""
         self.start_slideshow()
@@ -83,10 +57,6 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
         self.stop_slideshow()
 
     def stop_slideshow(self):
-        """Stop Slideshow."""
-        pass
-
-    def _stop_slideshow(self):
         """Stop Slideshow."""
         print("stop slideshow:")
         command = [
@@ -107,17 +77,12 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
 
     def start_slideshow(self, startfile=None):
         """Restart Slideshow."""
-        pass
-
-    def _start_slideshow(self, startfile=None):
-        """Restart Slideshow."""
         print("start slideshow:")
         duration_new_picture = 5.0
         duration_loop = 1.0
 
         target_path = self.path_script
         image_directory = "./captured/"
-        image_directory = target_path + "/captured/"
         # image_directory = "./"
 
         # https://man.finalrewind.org/1/feh/
@@ -135,15 +100,23 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
             "--slideshow-delay={}".format(duration_loop),
             "{}".format(image_directory),
         ]
+        # command_loop = [
+        #     "feh",
+        #     "--fullscreen",
+        #     "--randomize",
+        #     "--slideshow-delay=1",
+        #     "./captured/",
+        # ]
 
         command = []
 
-        if startfile:
-            command.extend(command_start)
-            command.append("&&")
-            command.extend(command_loop)
-        else:
-            command = command_loop
+        # if startfile:
+        #     command.extend(command_start)
+        #     command.append("&&")
+        #     command.extend(command_loop)
+        # else:
+        #    command = command_loop
+        command = command_loop
 
         result_string = ""
         try:
@@ -155,11 +128,9 @@ class PhotoBoothHandler(Gphoto2HookScriptHandler):
                 # subprocess.Popen(command, shell=True)
                 # command = " ".join(command)
                 # subprocess.Popen(command, shell=True)
-                # subprocess.run(command)
-                pass
-            # subprocess.run(command, shell=True)
-            subprocess.run(command)
-            # result_string += subprocess.check_output(command).decode()
+                # result_string += subprocess.check_output(command).decode()
+                # subprocess.run(command, shell=True, check=True)
+                subprocess.run(command)
         except subprocess.CalledProcessError as e:
             error_message = "failed: {}".format(e)
             print(error_message)
@@ -179,10 +150,10 @@ myPBHandler = None
 # main
 
 def main():
-    """Run Main SW."""
+    """Main SW."""
     global myPBHandler
     myPBHandler = PhotoBoothHandler()
-    # myPBHandler.start_slideshow()
+    myPBHandler.start_slideshow()
 
 
 if __name__ == "__main__":
